@@ -1,12 +1,7 @@
-# returns string of possible 2-letter combinations with givenletter + ?
-# store possibilities at the cell identified by ( Grid, row, col)
-def followWith([row][col]):
-    #currentLoopThrough is how far along the alphabet you are in asking is __insertletterhere__ in this cell
+# returns string of possible 2-letter combinations with givenletter + X
+def setValue(letter):
     #is next cell able to take this _th loopThrough letter, ie does this 2-letter combination exist?
-    possibilitiesforNext = []
-    alpha = 'ABCDEFGHIJKLMNOPRSTUVWXYZ'
     NonFollows = {
-        #can have key be just a letter and value be series of all letters that can't go after it
         'B': "QX",
         'C': "FJVX",
         'D': "X",
@@ -22,24 +17,32 @@ def followWith([row][col]):
         'V': "BCFJMPQTWX",
         'W': "QX",
         'X': "DJXZ",
-        'Z': "JX",
+        'Z': "JX"
         #total: 61
+        #Letters that are not keys in this are A, E, I, L, M, N, O, R, U,Y. So AEILMNORUY can take any letter
     }
     #only call on a cell that has a letter determined ...
     #"__str__" means to call the converter from the grid class defined as __str__(self).
-    # I don't exactly know how to pythonly call __str__ on the cell I'd like
-    [row][col].__str__ = initialLetter
+    #[row][col].__str__ = initialLetter
+    initialLetter = letter.upper()
     if initialLetter in NonFollows:
-        impossibilities = NonFollows[initialLetter]
-        possibilitiesForNext = alpha not in NonFollows[initialLetter]
+        shutOff = NonFollows.get(initialLetter)
+        returnValue = shutOff
     if initialLetter not in NonFollows:
-            impossibilities = None
-            possibilitiesForNext = alpha
-    return possibilitiesForNext
+        doNothing = "All letters possible to follow"
+        returnValue = doNothing
 
+    for letter in NonFollows.get('B'):
+        print(letter)
+        # ALPHABET[letter] = 1
+
+
+
+
+"""
 def indicateErrorFollows(row, col):
     currentBitCount = 0
-    alpha = 'ABCDEFGHIJKLMNOPRSTUVWXYZ'
+    alpha = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'
     if orientation == horizontal:
         if (col < totalColumns-1):
             while(currentBitCount < 26):
@@ -61,7 +64,7 @@ def indicateErrorFollows(row, col):
             if(returnvalue != None): return returnvalue
             else: return "No error"
         if (col == totalColumns-1):
-            return "Nothing can follow horizontally because rightmost column"
+            return "Nothing can follow horizontally because cell argument is in rightmost column"
 
     if orientation == vertical:
         if(row < totalRows-1):
@@ -80,11 +83,9 @@ def indicateErrorFollows(row, col):
 #can set nonpossibilities to 0's
 #updating grid class with possible combinations
 #JK: check if any values that are 100% impossible, eg CX, return false? return that this specific word found causes error, cannot add this word
-
-# returns string of possible 2-letter combinations with ? + givenletter
-def precedeWith(row, col):  # pass in a Grid, row # and column # that reprsent the position that you're looking to fill left or up
-    possibilitiesForPrevious = []
-    alpha = 'ABCDEFGHIJKLMNOPRSTUVWXYZ'
+"""
+# returns string of not possible 2-letter combinations with ? + givenletter
+def precedeWith(letter):  # pass in a Grid, row # and column # that reprsent the position that you're looking to fill left or up
     NonPrecedes = {
         'B': "JV",
         'C': "JQV",
@@ -107,19 +108,21 @@ def precedeWith(row, col):  # pass in a Grid, row # and column # that reprsent t
         'Y': "Q",
         'Z': "FJKQX"
         #total: 61
+        #letters not keys are AEIOSU
     }
-    [row][col].__str__ = latterLetter
+    latterLetter = letter.upper()
     if latterLetter in NonPrecedes:
-        impossibilities = NonPrecedes[latterLetter]
-        possibilitiesForPrevious = alpha not in NonPrecedes[latterLetter]
+        result1 = NonPrecedes.get(latterLetter)
+        return result1
     if latterLetter not in NonPrecedes:
-        impossibilities = None
-        possibilitiesForPrevious = alpha
-    return possibilitiesForPrevious
+        result2 = "All letters may precede"
+        return result2
 
+
+"""
 def indicateErrorPrecedes(row, col):
     currentBitCount = 0
-    alpha = 'ABCDEFGHIJKLMNOPRSTUVWXYZ'
+    alpha = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'
     if orientation == horizontal:
         if(col > 0):
             while (currentBitCount < 26):
@@ -143,7 +146,7 @@ def indicateErrorPrecedes(row, col):
             else:
                 return "No error"
         if(col ==0):
-            return "Nothing can precede because leftmost column"
+            return "Nothing can precede because cell argument is in leftmost column"
 
     if orientation == vertical:
         if(row >0):
@@ -158,4 +161,5 @@ def indicateErrorPrecedes(row, col):
             else:
                 return "No error"
         if(row ==0):
-            return "Nothing can precede because topmost row."
+            return "Nothing can precede because cell is in topmost row."
+"""
